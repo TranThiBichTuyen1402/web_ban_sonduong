@@ -73,8 +73,8 @@ const indexRouter = require('./routers/index');
 const khachRouter = require('./routers/khachhang');
 const adminRouter = require('./routers/nguoidung');
 
-app.use('/', authRouter); // Xử lý login/register/auth/google
 app.use('/', indexRouter);
+app.use('/', authRouter); // Xử lý login/register/auth/google
 app.use('/khach', khachRouter); 
 app.use('/admin', adminRouter);
 
