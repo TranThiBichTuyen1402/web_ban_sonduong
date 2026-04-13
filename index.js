@@ -26,7 +26,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Model Khách hàng
-const khachhang = require('./models/khachhang'); 
+const khachhang = require('../models/khachhang'); 
 
 // --- 4. Cấu hình Passport Google Strategy ---
 passport.use(new (require('passport-google-oauth20').Strategy)({
@@ -68,10 +68,10 @@ app.use((req, res, next) => {
 });
 
 // --- 6. Nạp Routers (Thứ tự ưu tiên authRouter lên đầu) ---
-const authRouter = require('./routers/auth');
-const indexRouter = require('./routers/index');
-const khachRouter = require('./routers/khachhang');
-const adminRouter = require('./routers/nguoidung');
+const authRouter = require('../routers/auth');
+const indexRouter = require('../routers/index');
+const khachRouter = require('../routers/khachhang');
+const adminRouter = require('../routers/nguoidung');
 
 app.use('/', authRouter); // Xử lý login/register/auth/google
 app.use('/', indexRouter);
