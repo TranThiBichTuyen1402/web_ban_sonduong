@@ -9,17 +9,20 @@ router.get('/register', (req, res) => {
 // 2. Route POST: Xử lý khi khách bấm nút "Đăng ký"
 router.post('/register', async (req, res) => {
     try {
-        // Lấy dữ liệu từ form (form của bạn cần có các name="email", name="password", etc.)
-        const { email, password, tenKhachHang, dienThoai, diaChi } = req.body;
+        const { email, password, confirmPassword, tenKhachHang, dienThoai, diaChi } = req.body;
 
-        // 1. Kiểm tra xem email đã tồn tại chưa
+        // KIỂM TRA MẬT KHẨU KHỚP NHAU
+        if (password !== confirmPassword) {
+            return res.send("<script>alert('Mật khẩu xác nhận không khớp!'); window.history.back();</script>");
+        }
+
+        // Kiểm tra email tồn tại (giữ nguyên code cũ của bạn...)
         const userTonTai = await khachhang.findOne({ email: email });
         if (userTonTai) {
             return res.send("<script>alert('Email này đã có người sử dụng!'); window.history.back();</script>");
         }
-
-        // 2. Tạo bản ghi mới KHỚP VỚI DATABASE TRONG HÌNH
-       // Trong router.post('/register', ...)
+        
+        // ... code lưu DB phía dưới giữ nguyên
 const khachHangMoi = new khachhang({
     tenKhachHang: tenKhachHang || "Người dùng mới", 
     dienThoai: dienThoai || "",
