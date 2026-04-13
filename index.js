@@ -7,7 +7,7 @@ const path = require('path');
 const passport = require('passport');
 
 // Model Khách hàng (Đảm bảo file này tồn tại trong folder models)
-const KhachHang = require('./models/KhachHang'); 
+const khachhang = require('./models/khachhang'); 
 
 // KẾT NỐI DATABASE
 const uri = 'mongodb://admin:admin123@ac-qcf57uz-shard-00-02.krj8l7i.mongodb.net:27017/QL_BanSonDuong?ssl=true&authSource=admin';
@@ -40,9 +40,9 @@ passport.use(new (require('passport-google-oauth20').Strategy)({
         const emailGoogle = profile.emails[0].value;
         const tenGoogle = profile.displayName;
 
-        let khach = await KhachHang.findOne({ email: emailGoogle });
+        let khach = await khachhang.findOne({ email: emailGoogle });
         if (!khach) {
-            khach = await KhachHang.create({
+            khach = await khachhang.create({
                 tenKhachHang: tenGoogle,
                 dienThoai: "Chưa cập nhật",
                 diaChi: "Chưa cập nhật",
