@@ -91,26 +91,45 @@ h3::after {
     <h3>TẠO TÀI KHOẢN</h3>
     <p class="text-muted small">Đăng ký bằng email hoặc sử dụng tài khoản Google cho nhanh.</p>
     
-    <form action="/register" method="POST">
-        <div class="row">
-            <div class="col-md-12 mb-3">
-                <label class="form-label">Email đăng ký*</label>
-                <input type="email" name="email" class="form-control" placeholder="Email" required>
-            </div>
+   <form action="/register" method="POST">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <label class="form-label text-uppercase">Họ và tên*</label>
+            <input type="text" name="tenKhachHang" class="form-control" placeholder="Nhập họ và tên của bạn" required>
         </div>
-        <div class="row mb-3">
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Mật khẩu*</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Xác nhận mật khẩu*</label>
-                <input type="password" class="form-control" required>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-pink w-100">ĐĂNG KÝ NGAY</button>
-    </form>
+    </div>
 
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <label class="form-label text-uppercase">Email đăng ký*</label>
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label text-uppercase">Số điện thoại</label>
+            <input type="text" name="dienThoai" class="form-control" placeholder="090...">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-uppercase">Địa chỉ</label>
+            <input type="text" name="diaChi" class="form-control" placeholder="Địa chỉ của bạn">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label text-uppercase">Mật khẩu*</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-uppercase">Xác nhận mật khẩu*</label>
+            <input type="password" name="confirmPassword" class="form-control" required>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-pink w-100 mt-2">ĐĂNG KÝ NGAY</button>
+</form>
     <div class="d-flex align-items-center my-4">
         <hr class="flex-grow-1">
         <span class="mx-2 text-muted small">HOẶC</span>
