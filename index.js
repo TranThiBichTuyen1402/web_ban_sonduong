@@ -68,14 +68,24 @@ passport.serializeUser((u, d) => d(null, u));
 passport.deserializeUser((o, d) => d(null, o));
 
 // BIẾN TOÀN CỤC CHO VIEW
-app.use((req, res, next) => {
-    if (req.isAuthenticated()) {
-        req.session.user = req.user;
+//app.use((req, res, next) => {
+  //  if (req.isAuthenticated()) {
+  //      req.session.user = req.user;
+  //  }
+  //  res.locals.user = req.session.user || null;
+  //  res.locals.cartCount = req.session.cart ? req.session.cart.length : 0;
+  //  next();
+//});
+app.set('trust proxy', 1);
+
+app.use(session({
+    secret: 'bichtuyen_beauty',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: true // bắt buộc trên Render (HTTPS)
     }
-    res.locals.user = req.session.user || null;
-    res.locals.cartCount = req.session.cart ? req.session.cart.length : 0;
-    next();
-});
+}));
 
 // --- ROUTES CHO GOOGLE AUTH ---
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
