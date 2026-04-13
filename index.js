@@ -62,7 +62,8 @@ passport.deserializeUser((o, d) => d(null, o));
 
 // 5. Biến toàn cục cho View (Dùng locals để index.ejs không bị lỗi undefined)
 app.use((req, res, next) => {
-    res.locals.user = req.user || null;
+    // Phải lấy từ cả 2 nguồn: Passport (Google) và Session (Đăng nhập tay)
+    res.locals.user = req.user || req.session.user || null; 
     res.locals.cartCount = req.session.cart ? req.session.cart.length : 0;
     next();
 });
