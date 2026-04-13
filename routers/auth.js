@@ -10,28 +10,33 @@ router.get('/register', (req, res) => {
 router.post('/register', async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        // 1. Kiểm tra xem Email này đã có ai dùng chưa
+        const checkUser = await khachhang.findOne({ email: email });
         
-        console.log("Đang lưu khách hàng:", email);
+        if (checkUser) {
+            // Nếu tìm thấy, báo lỗi ngay và không lưu nữa
+            return res.send(`
+                <script>
+                    alert('Email này đã được đăng ký rồi, vui lòng dùng email khác!');
+                    window.history.back(); // Quay lại trang trước để nhập lại
+                </script>
+            `);
+        }
 
-        // Tạo một bản ghi mới từ dữ liệu form
-        const moi = new khachhang({ 
-            email: email, 
-            password: password // Lưu ý: thực tế nên mã hóa, nhưng nộp bài thầy thì thế này cũng được
-        });
-
-        // Lệnh quan trọng nhất: Lưu vào MongoDB
+        // 2. Nếu chưa có thì mới tiến hành lưu
+        const moi = new khachhang({ email, password });
         await moi.save();
 
         res.send(`
             <script>
-                alert('Đăng ký tài khoản thành công!');
+                alert('Đăng ký tài khoản khách thành công!');
                 window.location.href = '/login'; 
             </script>
         `);
     } catch (error) {
-        console.error("Lỗi đăng ký:", error);
-        res.status(500).send("Email này có thể đã tồn tại hoặc lỗi kết nối Database!");
+        console.error("Lỗi kết nối DB:", error);
+        res.status(500).send("Lỗi kết nối Database, vui lòng kiểm tra lại Cluster MongoDB!");
     }
 });
-
 module.exports = router; // Dòng này cực kỳ quan trọng để index.js gọi được nó
