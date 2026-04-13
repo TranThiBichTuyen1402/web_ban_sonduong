@@ -19,15 +19,16 @@ router.post('/register', async (req, res) => {
         }
 
         // 2. Tạo bản ghi mới KHỚP VỚI DATABASE TRONG HÌNH
-        const khachHangMoi = new khachhang({
-            tenKhachHang: tenKhachHang || "Chưa đặt tên", 
-            dienThoai: dienThoai || "",
-            diaChi: diaChi || "",
-            email: email,
-            tenDangNhap: email, // Trong hình thấy bạn để tenDangNhap giống email
-            matKhau: password,  // Lưu ý: matKhau viết đúng chữ K hoa/thường theo DB
-            role: "customer"    // Mặc định là khách hàng như trong hình
-        });
+       // Trong router.post('/register', ...)
+const khachHangMoi = new khachhang({
+    tenKhachHang: tenKhachHang || "Người dùng mới", 
+    dienThoai: dienThoai || "",
+    diaChi: diaChi || "",
+    email: email,
+    tenDangNhap: email, // Giữ nguyên theo ý bạn
+    matKhau: password,  // Database của bạn cột này tên là 'matKhau'
+    role: "customer"
+});
 
         // 3. Lưu vào MongoDB
         await khachHangMoi.save();
