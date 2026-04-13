@@ -84,17 +84,22 @@ app.post('/register', async (req, res) => {
     try {
         const { email, password } = req.body;
         
-        // In ra màn hình console của Render để kiểm tra xem dữ liệu đã tới chưa
-        console.log("Email nhận được:", email);
-        console.log("Mật khẩu nhận được:", password);
+        // 1. In ra console để thầy (hoặc bạn) kiểm tra log trên Render
+        console.log("Xử lý đăng ký cho email:", email);
 
-        // Chỗ này bạn sẽ viết code để lưu user vào Database (MongoDB)
-        // Ví dụ: await User.create({ email, password });
+        // 2. Logic lưu vào MongoDB (Nếu bạn đã có Model User)
+        // await User.create({ email, password }); 
 
-        res.send("Đăng ký thành công! Quay lại trang đăng nhập.");
+        // 3. Phản hồi chuyên nghiệp: Thông báo thành công và quay lại trang Login
+        res.send(`
+            <script>
+                alert('Đăng ký tài khoản thành công!');
+                window.location.href = '/login'; 
+            </script>
+        `);
     } catch (error) {
-        console.error("Lỗi đăng ký:", error);
-        res.status(500).send("Có lỗi xảy ra khi đăng ký!");
+        console.error(error);
+        res.status(500).send("Lỗi hệ thống khi đăng ký.");
     }
 });
 // CÁC ROUTER KHÁC
