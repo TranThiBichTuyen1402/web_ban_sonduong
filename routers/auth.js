@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const khachhang = require('./models/khachhang');
+const khachhang = require('../models/khachhang');
 const passport = require('passport');
 
 // --- ĐĂNG KÝ ---
