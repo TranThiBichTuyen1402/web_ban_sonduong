@@ -39,12 +39,12 @@
             <li class="nav-item px-3">
                 <a href="/khach/giohang" class="nav-link position-relative">
                     <i class="bi bi-cart3"></i> Giỏ hàng
-                    <span class="badge rounded-pill bg-danger"><%= cartCount %></span>
+                    <span class="badge rounded-pill bg-danger"><%= (typeof cartCount !== 'undefined') ? cartCount : 0 %></span>
                 </a>
             </li>
         <% } %>
         <li class="nav-item ms-2">
-            Chào, <b><%= user.tenKhachHang || user.hoTen %></b> | 
+            Chào, <b><%= user.tenKhachHang || user.hoTen || "Khách" %></b> | 
             <a href="/logout" class="text-decoration-none text-muted">Thoát</a>
         </li>
 
