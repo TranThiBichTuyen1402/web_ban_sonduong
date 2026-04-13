@@ -1,11 +1,9 @@
 <form action="/register" method="POST">
-    <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" name="email" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Mật khẩu</label>
-        <input type="password" name="password" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-danger w-100">Đăng ký tài khoản khách</button>
+    <input type="text" name="tenKhachHang" placeholder="Họ và tên" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="dienThoai" placeholder="Số điện thoại">
+    <input type="text" name="diaChi" placeholder="Địa chỉ">
+    <input type="password" name="password" placeholder="Mật khẩu" required>
+    
+    <button type="submit">Đăng ký</button>
 </form>
