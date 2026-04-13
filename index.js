@@ -7,7 +7,7 @@ const path = require('path');
 const passport = require('passport');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-const authRouter = require('./router/auth'); 
+const authRouter = require('./routers/auth'); 
 app.use('/', authRouter); 
 
 // ... các đoạn code khác của bạn (ví dụ app.listen) ...
