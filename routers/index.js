@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var sanpham = require('../models/sanpham');
-var khachhang = require('../models/khachhang');
-var nguoidung = require('../models/nguoidung');
+var sanpham = require('./models/sanpham');
+var khachhang = require('./models/khachhang');
+var nguoidung = require('./models/nguoidung');
 
 router.get('/', async (req, res) => {
     const ds = await sanpham.find();
