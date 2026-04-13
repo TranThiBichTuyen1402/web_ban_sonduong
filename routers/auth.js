@@ -45,4 +45,25 @@ const khachHangMoi = new khachhang({
         res.status(500).send("Lỗi hệ thống: Không thể kết nối Database!");
     }
 });
+const passport = require('passport');
+
+// Đường dẫn bắt đầu đăng nhập Google
+router.get('/auth/google', 
+    passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+// Đường dẫn Google trả dữ liệu về (Fix lỗi Not Found)
+router.get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    (req, res) => {
+        res.redirect('/'); // Xong thì về trang chủ
+    }
+);
+
+// Đường dẫn Đăng xuất
+router.get('/logout', (req, res) => {
+    req.logout(() => {
+        res.redirect('/');
+    });
+});
 module.exports = router; // Dòng này cực kỳ quan trọng để index.js gọi được nó
