@@ -1,0 +1,23 @@
+{
+  "name": "web_ban_son",
+  "version": "1.0.0",
+  "description": "Web bán son dưỡng",
+  "license": "ISC",
+  "author": "Trần Thị Bích Tuyền",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongoose": "^9.3.3",
+    "multer": "^2.1.1",
+    "nodemon": "^3.1.14",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
+  }
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Chi tiết đơn hàng #<%= order._id %></title>
+    <style>
+        body { background-color: #fdf2f4; }
+        .card { border-radius: 15px; border: none; }
+        .status-badge { font-size: 0.9rem; padding: 8px 15px; border-radius: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <a href="/khach/don-hang" class="btn btn-outline-secondary mb-4 border-0">
+            ← Quay lại lịch sử đơn hàng
+        </a>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow-sm p-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="fw-bold text-danger mb-0">CHI TIẾT ĐƠN HÀNG</h4>
+                        <span class="status-badge bg-warning text-dark">
+                            <%= order.trangThai %>
+                        </span>
+                    </div>
+
+                    <table class="table align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-end">Đơn giá</th>
+                                <th class="text-end">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% order.chiTiet.forEach(item => { %>
+                            <tr>
+                                <td>
+                                    <div class="fw-bold"><%= item.tenSon %></div>
+                                    <small class="text-muted">Mã SP: <%= item.maSon %></small>
+                                </td>
+                                <td class="text-center">x<%= item.soLuong %></td>
+                                <td class="text-end"><%= item.gia.toLocaleString() %> đ</td>
+                                <td class="text-end fw-bold">
+                                    <%= (item.gia * item.soLuong).toLocaleString() %> đ
+                                </td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold fs-5">Tổng cộng:</td>
+                                <td class="text-end fw-bold text-danger fs-5">
+                                    <%= order.tongTien.toLocaleString() %> đ
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm p-4 mb-4">
+                    <h5 class="fw-bold mb-3">Thông tin nhận hàng</h5>
+                    <hr>
+                    <p class="mb-1"><strong>Người nhận:</strong> <%= order.tenNguoiNhan %></p>
+                    <p class="mb-1"><strong>Số điện thoại:</strong> <%= order.sdt %></p>
+                    <p class="mb-1"><strong>Địa chỉ:</strong> <%= order.diaChi %></p>
+                    <p class="mb-0 text-muted small">
+                        <strong>Ngày đặt:</strong> 
+                        <%= new Date(order.ngayDat).toLocaleString('vi-VN') %>
+                    </p>
+                </div>
+
+                <div class="card shadow-sm p-4 bg-white border-dashed">
+                    <h5 class="fw-bold mb-3 small text-uppercase">Hình thức thanh toán</h5>
+                    <p class="mb-0 small text-muted italic">Thanh toán khi nhận hàng (COD)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
