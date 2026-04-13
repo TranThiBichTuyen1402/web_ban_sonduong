@@ -42,14 +42,14 @@ passport.use(new (require('passport-google-oauth20').Strategy)({
         if (!khach) {
             // Sửa lỗi tên biến ở đây: khachhang (viết thường) khớp với require phía trên
             khach = await khachhang.create({
-                tenKhachHang: tenGoogle,
-                dienThoai: "Chưa cập nhật",
-                diaChi: "Chưa cập nhật",
-                email: emailGoogle,
-                tenDangNhap: emailGoogle,
-                matKhau: "google_login_social",
-                role: "customer"
-            });
+    tenKhachHang: tenGoogle,
+    dienThoai: "", // Để trống thay vì "Chưa cập nhật" cho sạch DB
+    diaChi: "",
+    email: emailGoogle,
+    tenDangNhap: emailGoogle,
+    matKhau: "google_social_" + Date.now(), // Tạo mật khẩu ngẫu nhiên cho bảo mật
+    role: "customer"
+});
         }
         return done(null, khach);
     } catch (err) {
