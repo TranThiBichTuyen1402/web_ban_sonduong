@@ -3,7 +3,7 @@ const router = express.Router();
 const khachhang = require('../models/khachhang');
 // 1. Route GET: Hiển thị trang đăng ký khi khách truy cập /register
 router.get('/register', (req, res) => {
-    res.render('register'); // Phải trùng tên với file register.ejs trong thư mục views
+    res.render('login'); 
 });
 
 // 2. Route POST: Xử lý khi khách bấm nút "Đăng ký"
