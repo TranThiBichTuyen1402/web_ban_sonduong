@@ -9,34 +9,28 @@ router.get('/register', (req, res) => {
 // 2. Route POST: Xử lý khi khách bấm nút "Đăng ký"
 router.post('/register', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body; // Lấy từ form HTML
 
-        // 1. Kiểm tra xem Email này đã có ai dùng chưa
-        const checkUser = await khachhang.findOne({ email: email });
-        
-        if (checkUser) {
-            // Nếu tìm thấy, báo lỗi ngay và không lưu nữa
-            return res.send(`
-                <script>
-                    alert('Email này đã được đăng ký rồi, vui lòng dùng email khác!');
-                    window.history.back(); // Quay lại trang trước để nhập lại
-                </script>
-            `);
+        // 1. Kiểm tra xem khách đã tồn tại chưa
+        const checkKhach = await khachhang.findOne({ email: email });
+        if (checkKhach) {
+            return res.send("<script>alert('Email này đã tồn tại!'); window.history.back();</script>");
         }
 
-        // 2. Nếu chưa có thì mới tiến hành lưu
-        const moi = new khachhang({ email, password });
-        await moi.save();
+        // 2. Tạo đối tượng mới khớp y chang các trường trong hình image_0cff24.png
+        const moi = new khachhang({
+            tenKhachHang: "Khách hàng mới", // Tên mặc định hoặc lấy thêm từ form
+            email: email,
+            tenDangNhap: email,
+            matKhau: password, // Trong hình của bạn là 'matKhau' chứ không phải 'password'
+            role: "customer"
+        });
 
-        res.send(`
-            <script>
-                alert('Đăng ký tài khoản khách thành công!');
-                window.location.href = '/login'; 
-            </script>
-        `);
+        await moi.save();
+        res.send("<script>alert('Đăng ký thành công!'); window.location.href='/login';</script>");
     } catch (error) {
-        console.error("Lỗi kết nối DB:", error);
-        res.status(500).send("Lỗi kết nối Database, vui lòng kiểm tra lại Cluster MongoDB!");
+        console.error("Lỗi rồi:", error);
+        res.status(500).send("Lỗi kết nối Database! Hãy kiểm tra lại whitelist IP trên MongoDB Atlas.");
     }
 });
 module.exports = router; // Dòng này cực kỳ quan trọng để index.js gọi được nó
