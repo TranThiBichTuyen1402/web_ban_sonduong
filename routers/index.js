@@ -12,10 +12,8 @@ router.get('/', async (req, res) => {
 router.get('/login', (req, res) => res.render('login'));
 
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body; // 'email' ở đây là giá trị từ ô nhập liệu
+    const { email, password } = req.body;
     try {
-        // Tìm user: Kiểm tra cả 2 bảng KhachHang và NguoiDung
-        // Tìm ở cả 2 cột: email HOẶC tenDangNhap
         let user = await khachhang.findOne({
             $or: [{ email: email }, { tenDangNhap: email }],
             matKhau: password
@@ -29,28 +27,33 @@ router.post('/login', async (req, res) => {
         }
 
         if (user) {
+            // Khi đăng nhập tay, ta lưu vào session
             req.session.user = user;
             return req.session.save(() => {
-                // Kiểm tra quyền Admin để chuyển hướng
-                if (user.role === 'admin') {
-                    return res.redirect('/admin/sanpham');
-                }
+                if (user.role === 'admin') return res.redirect('/admin/sanpham');
                 res.redirect('/');
             });
         }
-
-        // Nếu không khớp
         res.send("<script>alert('Sai tài khoản hoặc mật khẩu!'); window.location='/login';</script>");
     } catch (err) {
-        console.log("Lỗi Login:", err);
         res.status(500).send("Lỗi server");
     }
 });
-
 // THÊM ĐOẠN NÀY
 router.get('/lien-he', (req, res) => {
     res.render('lienhe'); 
 });
-router.get('/logout', (req, res) => { req.session.destroy(); res.redirect('/'); });
-
+router.get('/logout', (req, res) => { 
+    if (req.logout) {
+        req.logout(() => { 
+            req.session.destroy(() => { 
+                res.redirect('/'); 
+            });
+        });
+    } else {
+        req.session.destroy(() => { 
+            res.redirect('/'); 
+        });
+    }
+});
 module.exports = router;
