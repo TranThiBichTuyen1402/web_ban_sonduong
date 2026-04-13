@@ -7,10 +7,6 @@ const path = require('path');
 const passport = require('passport');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-const authRouter = require('./routers/auth'); 
-app.use('/', authRouter); 
-
-// ... các đoạn code khác của bạn (ví dụ app.listen) ...
 // Model Khách hàng (Đảm bảo file này tồn tại trong folder models)
 const khachhang = require('./models/khachhang'); 
 
@@ -29,7 +25,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }
-})); 
+}));
 
 // KÍCH HOẠT PASSPORT
 app.use(passport.initialize());
@@ -47,7 +43,7 @@ passport.use(new (require('passport-google-oauth20').Strategy)({
 
         let khach = await khachhang.findOne({ email: emailGoogle });
         if (!khach) {
-            khach = await khachhang.create({
+            khach = await KhachHang.create({
                 tenKhachHang: tenGoogle,
                 dienThoai: "Chưa cập nhật",
                 diaChi: "Chưa cập nhật",
@@ -68,24 +64,14 @@ passport.serializeUser((u, d) => d(null, u));
 passport.deserializeUser((o, d) => d(null, o));
 
 // BIẾN TOÀN CỤC CHO VIEW
-//app.use((req, res, next) => {
-  //  if (req.isAuthenticated()) {
-  //      req.session.user = req.user;
-  //  }
-  //  res.locals.user = req.session.user || null;
-  //  res.locals.cartCount = req.session.cart ? req.session.cart.length : 0;
-  //  next();
-//});
-app.set('trust proxy', 1);
-
-app.use(session({
-    secret: 'bichtuyen_beauty',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { 
-        secure: true // bắt buộc trên Render (HTTPS)
+app.use((req, res, next) => {
+    if (req.isAuthenticated()) {
+        req.session.user = req.user;
     }
-}));
+    res.locals.user = req.session.user || null;
+    res.locals.cartCount = req.session.cart ? req.session.cart.length : 0;
+    next();
+});
 
 // --- ROUTES CHO GOOGLE AUTH ---
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
@@ -95,6 +81,28 @@ app.get('/auth/google/callback',
     (req, res) => res.redirect('/')
 );
 
+app.post('/register', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        // 1. In ra console để thầy (hoặc bạn) kiểm tra log trên Render
+        console.log("Xử lý đăng ký cho email:", email);
+
+        // 2. Logic lưu vào MongoDB (Nếu bạn đã có Model User)
+        // await User.create({ email, password }); 
+
+        // 3. Phản hồi chuyên nghiệp: Thông báo thành công và quay lại trang Login
+        res.send(`
+            <script>
+                alert('Đăng ký tài khoản thành công!');
+                window.location.href = '/login'; 
+            </script>
+        `);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Lỗi hệ thống khi đăng ký.");
+    }
+});
 // CÁC ROUTER KHÁC
 var indexRouter = require('./routers/index');
 var khachRouter = require('./routers/khachhang');
