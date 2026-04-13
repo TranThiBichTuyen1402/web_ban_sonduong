@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const path = require('path');
 const passport = require('passport');
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 // Model Khách hàng (Đảm bảo file này tồn tại trong folder models)
 const khachhang = require('./models/khachhang'); 
 
@@ -79,7 +80,23 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     (req, res) => res.redirect('/')
 );
+app.post('/register', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        // In ra màn hình console của Render để kiểm tra xem dữ liệu đã tới chưa
+        console.log("Email nhận được:", email);
+        console.log("Mật khẩu nhận được:", password);
 
+        // Chỗ này bạn sẽ viết code để lưu user vào Database (MongoDB)
+        // Ví dụ: await User.create({ email, password });
+
+        res.send("Đăng ký thành công! Quay lại trang đăng nhập.");
+    } catch (error) {
+        console.error("Lỗi đăng ký:", error);
+        res.status(500).send("Có lỗi xảy ra khi đăng ký!");
+    }
+});
 // CÁC ROUTER KHÁC
 var indexRouter = require('./routers/index');
 var khachRouter = require('./routers/khachhang');
