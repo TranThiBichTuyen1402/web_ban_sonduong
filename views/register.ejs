@@ -1,9 +1,14 @@
-<form action="/register" method="POST">
-    <input type="text" name="tenKhachHang" placeholder="Họ và tên" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="text" name="dienThoai" placeholder="Số điện thoại">
-    <input type="text" name="diaChi" placeholder="Địa chỉ">
-    <input type="password" name="password" placeholder="Mật khẩu" required>
-    
-    <button type="submit">Đăng ký</button>
-</form>
+<div class="form-group">
+    <label>Họ và tên*</label>
+    <input type="text" name="tenKhachHang" class="form-control" placeholder="Nhập họ và tên" required>
+</div>
+
+<div class="form-group">
+    <label>Số điện thoại</label>
+    <input type="text" name="dienThoai" class="form-control" placeholder="Nhập số điện thoại">
+</div>
+
+<div class="form-group">
+    <label>Địa chỉ</label>
+    <input type="text" name="diaChi" class="form-control" placeholder="Nhập địa chỉ">
+</div>
