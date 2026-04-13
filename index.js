@@ -7,6 +7,10 @@ const path = require('path');
 const passport = require('passport');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+const authRouter = require('./router/auth'); 
+app.use('/', authRouter); 
+
+// ... các đoạn code khác của bạn (ví dụ app.listen) ...
 // Model Khách hàng (Đảm bảo file này tồn tại trong folder models)
 const khachhang = require('./models/khachhang'); 
 
@@ -80,28 +84,7 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     (req, res) => res.redirect('/')
 );
-app.post('/register', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        
-        // 1. In ra console để thầy (hoặc bạn) kiểm tra log trên Render
-        console.log("Xử lý đăng ký cho email:", email);
 
-        // 2. Logic lưu vào MongoDB (Nếu bạn đã có Model User)
-        // await User.create({ email, password }); 
-
-        // 3. Phản hồi chuyên nghiệp: Thông báo thành công và quay lại trang Login
-        res.send(`
-            <script>
-                alert('Đăng ký tài khoản thành công!');
-                window.location.href = '/login'; 
-            </script>
-        `);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Lỗi hệ thống khi đăng ký.");
-    }
-});
 // CÁC ROUTER KHÁC
 var indexRouter = require('./routers/index');
 var khachRouter = require('./routers/khachhang');
