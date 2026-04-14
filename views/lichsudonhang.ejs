@@ -26,11 +26,18 @@
     </span>
 </td>
                             <td>
+    <span class="badge <%= order.trangThai === 'Đã nhận hàng' ? 'bg-success' : (order.trangThai === 'Đang giao' ? 'bg-info' : 'bg-warning text-dark') %>">
+        <%= order.trangThai %>
+    </span>
+</td>
+<td>
     <a href="/khach/don-hang/chi-tiet/<%= order._id %>" class="btn btn-sm btn-info text-white">Xem</a>
 
-    <% if (order.trangThai === 'Đang giao') { %>
+    <% if (order.trangThai === 'Đang giao' || order.trangThai === 'Đã duyệt') { %>
         <form action="/khach/da-nhan-hang/<%= order._id %>" method="POST" style="display:inline;">
-            <button type="submit" class="btn btn-success btn-sm">Đã nhận được hàng</button>
+            <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Xác nhận bạn đã nhận được gói hàng này?')">
+                Đã nhận được hàng
+            </button>
         </form>
     <% } %>
 </td>
