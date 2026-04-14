@@ -20,10 +20,20 @@
                             <td class="fw-bold">#<%= order._id %></td>
                             <td><%= new Date(order.ngayDat).toLocaleString('vi-VN', { hour12: false }) %></td>
                             <td class="text-danger fw-bold"><%= order.tongTien.toLocaleString() %> đ</td>
-                            <td><span class="badge bg-warning text-dark"><%= order.trangThai %></span></td>
                             <td>
-                                <a href="/khach/don-hang/chi-tiet/<%= order._id %>" class="btn btn-sm btn-info text-white">Xem</a>
-                            </td>
+    <span class="badge <%= order.trangThai === 'Đã nhận hàng' ? 'bg-success' : 'bg-warning text-dark' %>">
+        <%= order.trangThai %>
+    </span>
+</td>
+                            <td>
+    <a href="/khach/don-hang/chi-tiet/<%= order._id %>" class="btn btn-sm btn-info text-white">Xem</a>
+
+    <% if (order.trangThai === 'Đang giao') { %>
+        <form action="/khach/da-nhan-hang/<%= order._id %>" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-success btn-sm">Đã nhận được hàng</button>
+        </form>
+    <% } %>
+</td>
                         </tr>
                     <% }) %>
                 </tbody>
