@@ -24,6 +24,23 @@ router.get('/add-to-cart/:id', async (req, res) => {
     }
     res.send("<script>alert('Đã thêm vào giỏ hàng!'); window.location='/';</script>");
 });
+// Xóa sản phẩm khỏi giỏ hàng dựa trên vị trí (index)
+router.get('/remove-from-cart/:index', (req, res) => {
+    try {
+        const index = req.params.index; // Lấy vị trí món đồ muốn xóa
+        
+        if (req.session.cart && req.session.cart.length > 0) {
+            // Xóa 1 phần tử tại vị trí index
+            req.session.cart.splice(index, 1);
+        }
+
+        // Xóa xong thì quay lại trang giỏ hàng
+        res.redirect('/khach/giohang');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Lỗi khi xóa sản phẩm");
+    }
+});
 
 // 2. Xem giỏ hàng
 router.get('/giohang', (req, res) => {
