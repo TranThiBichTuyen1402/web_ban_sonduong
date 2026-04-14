@@ -106,5 +106,22 @@ router.get('/don-hang/chi-tiet/:id', async (req, res) => {
         res.status(500).send("Lỗi hệ thống: " + err.message);
     }
 });
+// 7. Xử lý khi khách bấm nút "Đã nhận được hàng"
+router.post('/da-nhan-hang/:id', async (req, res) => {
+    try {
+        const user = getLoggedUser(req);
+        if (!user) return res.redirect('/login');
 
+        // Tìm đơn hàng của đúng user đó và cập nhật trạng thái
+        await donhang.findOneAndUpdate(
+            { _id: req.params.id, maKhachHang: user._id }, 
+            { trangThai: 'Đã nhận hàng' }
+        );
+
+        res.redirect('/khach/don-hang'); 
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Lỗi cập nhật: " + err.message);
+    }
+});
 module.exports = router;
