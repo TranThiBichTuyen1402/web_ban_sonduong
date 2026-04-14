@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const path = require('path');
 const passport = require('passport');
-
+app.use('/ngoai-le', express.static('D:/HinhAnhSon'));
 // --- 1. Cấu hình cơ bản ---
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
